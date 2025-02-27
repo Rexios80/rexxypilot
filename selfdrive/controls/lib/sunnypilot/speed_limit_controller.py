@@ -110,6 +110,17 @@ class SpeedLimitController:
       return self._offset_value * (CV.KPH_TO_MS if self._is_metric else CV.MPH_TO_MS)
     elif self._offset_type == OffsetType.percentage:
       return self._offset_value * 0.01 * self._speed_limit
+    elif self._offset_type == OffsetType.tiered:
+      speed_limit_mph = self._speed_limit * CV.MS_TO_MPH
+
+      if speed_limit_mph < 35:
+        offset_mph = 2
+      elif speed_limit_mph < 65:
+        offset_mph = 5
+      else:
+        offset_mph = 10
+
+      return offset_mph * CV.MPH_TO_MS
     return 0.
 
   @property

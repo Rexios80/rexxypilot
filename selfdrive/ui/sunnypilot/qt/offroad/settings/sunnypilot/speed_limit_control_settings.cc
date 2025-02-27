@@ -50,7 +50,7 @@ SlcSettings::SlcSettings(QWidget* parent) : QWidget(parent) {
   speed_limit_engage_settings->showDescription();
   list->addItem(speed_limit_engage_settings);
 
-  std::vector<QString> speed_limit_offset_settings_texts{tr("Default"), tr("Fixed"), tr("Percentage")};
+  std::vector<QString> speed_limit_offset_settings_texts{tr("Default"), tr("Fixed"), tr("Percentage"), tr("Tiered")};
   speed_limit_offset_settings = new ButtonParamControlSP(
     "SpeedLimitOffsetType", tr("Limit Offset"), tr("Set speed limit slightly higher than actual speed limit for a more natural drive."),
     "",
@@ -105,7 +105,8 @@ void SlcSettings::updateToggles() {
 
     if (hasLongitudinalControl(CP) || custom_stock_long_param) {
       speed_limit_offset_settings->setEnabled(speed_limit_control);
-      slvo->setEnabled(speed_limit_control && QString::fromStdString(params.get("SpeedLimitOffsetType")) != "0");
+      QString offset_type = QString::fromStdString(params.get("SpeedLimitOffsetType"));
+      slvo->setEnabled(speed_limit_control && offset_type != "0" && offset_type != "3");
 
       QString speed_limit_engage_condition_text = pcm_cruise_op_long ? tr("This platform defaults to <b>Auto</b> mode. <b>User Confirm</b> mode is not supported on this platform.") + "<br><br>" : "";
       QString speed_limit_engage_condition_param = pcm_cruise_op_long ? "0" : "SpeedLimitEngageType";
@@ -154,6 +155,9 @@ void SpeedLimitValueOffset::refresh() {
     unit = " " + (is_metric ? tr("km/h") : tr("mph"));
   } else if (offset_type == "2") {
     unit = " %";
+  } else if (offset_type == "3") {
+    option = "+2 +5 +10";
+    unit = "";
   }
   setLabel(option + unit);
 }

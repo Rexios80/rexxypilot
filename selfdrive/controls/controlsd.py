@@ -126,7 +126,9 @@ class Controls:
     # cleanup old params
     if not self.CP.experimentalLongitudinalAvailable:
       self.params.remove("ExperimentalLongitudinalEnabled")
-    if not self.CP.openpilotLongitudinalControl:
+
+    self.custom_stock_planner_speed = self.params.get_bool("CustomStockLongPlanner")
+    if not self.can_use_experimental_mode():
       self.params.remove("ExperimentalMode")
 
     self.CS_prev = car.CarState.new_message()
@@ -174,7 +176,6 @@ class Controls:
 
     self.live_torque = self.params.get_bool("LiveTorque")
     self.torqued_override = self.params.get_bool("TorquedOverride")
-    self.custom_stock_planner_speed = self.params.get_bool("CustomStockLongPlanner")
 
     self.enable_mads = self.params.get_bool("EnableMads")
     self.mads_disengage_lateral_on_brake = self.params.get_bool("DisengageLateralOnBrake")
@@ -971,11 +972,13 @@ class Controls:
     except (ValueError, TypeError):
       return custom.AccelerationPersonality.stock
 
+  def can_use_experimental_mode(self):
+    return self.CP.openpilotLongitudinalControl or (not self.CP.pcmCruiseSpeed and self.custom_stock_planner_speed)
+
   def params_thread(self, evt):
     while not evt.is_set():
       self.is_metric = self.params.get_bool("IsMetric")
-      self.experimental_mode = self.params.get_bool("ExperimentalMode") and (self.CP.openpilotLongitudinalControl or
-                                                                             (not self.CP.pcmCruiseSpeed and self.custom_stock_planner_speed))
+      self.experimental_mode = self.params.get_bool("ExperimentalMode") and self.can_use_experimental_mode()
       self.personality = self.read_personality_param()
       self.dynamic_personality = self.params.get_bool("DynamicPersonality")
       self.accel_personality = self.read_accel_personality_param()

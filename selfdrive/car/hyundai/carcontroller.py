@@ -142,7 +142,7 @@ class CarController(CarControllerBase):
         self.m_tsc = self.sm['longitudinalPlanSP'].turnSpeed
 
       if self.frame % 200 == 0:
-        self.custom_stock_planner_speed = self.param_s.get_bool("CustomStockLongPlanner")
+        self.custom_stock_planner_speed = self.param_s.get_bool("CustomStockLongPlanner") and CS.out.vEgo * CV.MS_TO_MPH < 38
       self.v_cruise_min = HYUNDAI_V_CRUISE_MIN[CS.params_list.is_metric] * (CV.KPH_TO_MPH if not CS.params_list.is_metric else 1)
       self.v_target_plan = min(CC.vCruise * CV.KPH_TO_MS, self.speeds)
 

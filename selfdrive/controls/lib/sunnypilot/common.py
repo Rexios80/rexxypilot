@@ -27,3 +27,4 @@ class OffsetType(IntEnum):
   default = 0
   fixed = 1
   percentage = 2
+  tiered = 3
