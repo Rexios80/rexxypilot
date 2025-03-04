@@ -37,6 +37,7 @@ cp -pR --parents $(cat $FILES_SRC) $BUILD_DIR/
 
 # in the directory
 cd $BUILD_DIR
+sed -i '/from .board.jungle import PandaJungle, PandaJungleDFU/s/^/#/' panda/__init__.py # comment panda jungle when prebuilt
 
 rm -f panda/board/obj/panda.bin.signed
 rm -f panda/board/obj/panda_h7.bin.signed
