@@ -107,7 +107,7 @@ SP_VERSION=$(cat $SOURCE_DIR/common/version.h | awk -F\" '{print $2}')
 # Add built files to git
 git add -f .
 git commit --amend -m "rexxypilot v$VERSION"
-git branch -m release-c3
+git branch -m $RELEASE_BRANCH
 
 # Run tests
 #TEST_FILES="tools/"
