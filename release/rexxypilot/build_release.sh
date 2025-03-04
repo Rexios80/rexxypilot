@@ -53,7 +53,7 @@ git branch --set-upstream-to=origin/$RELEASE_BRANCH
 
 # Build panda firmware
 pushd panda/
-scons -u .
+scons -u . --minimal
 mv board/obj/panda.bin.signed $BUILD_PANDA_DIR/panda.bin.signed
 mv board/obj/panda_h7.bin.signed $BUILD_PANDA_DIR/panda_h7.bin.signed
 mv board/obj/bootstub.panda.bin $BUILD_PANDA_DIR/bootstub.panda.bin
@@ -62,7 +62,7 @@ popd
 
 # Build
 export PYTHONPATH="$BUILD_DIR"
-scons -j$(nproc)
+scons -j$(nproc) --minimal
 
 # Ensure no submodules in release
 if test "$(git submodule--helper list | wc -l)" -gt "0"; then
