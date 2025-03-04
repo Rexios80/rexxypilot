@@ -31,7 +31,7 @@ git fetch origin stuff
 # do the files copy
 echo "[-] copying files T=$SECONDS"
 cd $SOURCE_DIR
-cp -pR --parents $(cat release/files_common) $BUILD_DIR/
+cp -pR --parents $(./release/release_files.py) $BUILD_DIR/
 cp -pR --parents $(cat $FILES_SRC) $BUILD_DIR/
 
 # in the directory
