@@ -17,6 +17,7 @@ BUILD_PANDA_DIR=/data/media/panda/openpilot-release
 
 # set git identity
 source $DIR/identity.sh
+export GIT_SSH_COMMAND="ssh -i /data/gitkey"
 
 echo "[-] Setting up repo T=$SECONDS"
 rm -rf $BUILD_DIR
