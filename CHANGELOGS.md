@@ -1,3 +1,12 @@
+rexxypilot - 2025-03-04
+========================
+* Automatically disables UPS above 38 mph
+* Fixes bug where experimental mode disables itself every boot with UPS enabled
+* Adds a new SLC mode: Tiered
+  * <35mph: +2
+  * <65mph: +5
+  * else: +10
+
 sunnypilot - 0.9.8.0 (2024-xx-xx)
 ========================
 * Always on driver monitoring toggle
