@@ -10,6 +10,7 @@ BUILD_DIR=/data/media/openpilot-release
 SOURCE_DIR="$(git rev-parse --show-toplevel)"
 
 FILES_SRC="release/files_tici"
+RELEASE_BRANCH="stuff2"
 
 BUILD_PANDA_DIR=/data/media/panda/openpilot-release
 
@@ -26,7 +27,7 @@ git init
 # set git username/password
 source /data/identity.sh
 git remote add origin https://github.com/Rexios80/rexxypilot.git
-git fetch origin stuff
+git fetch origin $RELEASE_BRANCH
 
 # do the files copy
 echo "[-] copying files T=$SECONDS"
@@ -48,7 +49,7 @@ echo "#define COMMA_VERSION \"$VERSION-release\"" > common/version.h
 echo "[-] committing version $VERSION T=$SECONDS"
 git add -f .
 git commit -a -m "rexxypilot v$VERSION release"
-git branch --set-upstream-to=origin/stuff2
+git branch --set-upstream-to=origin/$RELEASE_BRANCH
 
 # Build panda firmware
 pushd panda/
@@ -106,7 +107,7 @@ SP_VERSION=$(cat $SOURCE_DIR/common/version.h | awk -F\" '{print $2}')
 # Add built files to git
 git add -f .
 git commit --amend -m "rexxypilot v$VERSION"
-git branch -m stuff2
+git branch -m $RELEASE_BRANCH
 
 # Run tests
 #TEST_FILES="tools/"
@@ -120,7 +121,7 @@ git branch -m stuff2
 
 if [ ! -z "$PUSH" ]; then
   echo "[-] pushing T=$SECONDS"
-  git push -f origin stuff2
+  git push -f origin $RELEASE_BRANCH
 fi
 
 echo "[-] done T=$SECONDS"
