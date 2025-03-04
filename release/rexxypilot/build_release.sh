@@ -43,8 +43,8 @@ rm -f panda/board/obj/panda_h7.bin.signed
 rm -f panda/board/obj/bootstub.panda.bin
 rm -f panda/board/obj/bootstub.panda_h7.bin
 
-VERSION=$(cat common/version.h | awk -F[\"-]  '{print $2}')
-echo "#define COMMA_VERSION \"$VERSION-release\"" > common/version.h
+VERSION=$(date '+%Y.%m.%d')
+echo "#define COMMA_VERSION \"$VERSION-dev\"" > common/version.h
 
 echo "[-] committing version $VERSION T=$SECONDS"
 git add -f .
