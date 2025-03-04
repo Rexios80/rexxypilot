@@ -105,12 +105,11 @@ touch prebuilt
 
 # include source commit hash and build date in commit
 GIT_HASH=$(git --git-dir=$SOURCE_DIR/.git rev-parse HEAD)
-DATETIME=$(date '+%Y-%m-%dT%H:%M:%S')
 SP_VERSION=$(cat $SOURCE_DIR/common/version.h | awk -F\" '{print $2}')
 
 # Add built files to git
 git add -f .
-git commit --amend -m "rexxypilot v$VERSION"
+git commit --amend -m "rexxypilot v$VERSION (source: $GIT_HASH)"
 git branch -m $RELEASE_BRANCH
 
 # Run tests
