@@ -53,7 +53,7 @@ git branch --set-upstream-to=origin/$RELEASE_BRANCH
 
 # Build panda firmware
 pushd panda/
-scons -u .
+SKIP_TESTS=1 scons -u .
 mv board/obj/panda.bin.signed $BUILD_PANDA_DIR/panda.bin.signed
 mv board/obj/panda_h7.bin.signed $BUILD_PANDA_DIR/panda_h7.bin.signed
 mv board/obj/bootstub.panda.bin $BUILD_PANDA_DIR/bootstub.panda.bin
