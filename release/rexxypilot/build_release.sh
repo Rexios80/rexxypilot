@@ -103,24 +103,13 @@ git checkout third_party/
 # Mark as prebuilt release
 touch prebuilt
 
-# include source commit hash and build date in commit
+# include source commit hash
 GIT_HASH=$(git --git-dir=$SOURCE_DIR/.git rev-parse HEAD)
-SP_VERSION=$(cat $SOURCE_DIR/common/version.h | awk -F\" '{print $2}')
 
 # Add built files to git
 git add -f .
 git commit --amend -m "rexxypilot v$VERSION (source: $GIT_HASH)"
 git branch -m $RELEASE_BRANCH
-
-# Run tests
-#TEST_FILES="tools/"
-#cd $SOURCE_DIR
-#cp -pR -n --parents $TEST_FILES $BUILD_DIR/
-#cd $BUILD_DIR
-#RELEASE=1 selfdrive/test/test_onroad.py
-#selfdrive/manager/test/test_manager.py
-#selfdrive/car/tests/test_car_interfaces.py
-#rm -rf $TEST_FILES
 
 if [ ! -z "$PUSH" ]; then
   echo "[-] pushing T=$SECONDS"
